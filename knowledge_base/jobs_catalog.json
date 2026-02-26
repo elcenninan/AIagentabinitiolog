@@ -1,0 +1,20 @@
+[
+  {
+    "job_name": "gl_customer_dim_load",
+    "source_table": "stg_customer",
+    "destination_table": "dw_customer_dim",
+    "tags": ["customer", "dimension", "daily_load"]
+  },
+  {
+    "job_name": "gl_orders_fact_load",
+    "source_table": "stg_orders",
+    "destination_table": "dw_orders_fact",
+    "tags": ["orders", "fact", "incremental"]
+  },
+  {
+    "job_name": "gl_payments_fact_load",
+    "source_table": "stg_payments",
+    "destination_table": "dw_payments_fact",
+    "tags": ["payments", "fact", "hourly"]
+  }
+]
