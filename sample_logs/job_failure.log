@@ -1,0 +1,4 @@
+2026-02-18 02:14:08 INFO Starting graph /abinitio/graphs/gl_orders_fact_load.mp
+2026-02-18 02:14:11 INFO Source table detected: stg_orders
+2026-02-18 02:14:13 ERROR Component transform_reject: Null value in non-nullable column order_id
+2026-02-18 02:14:14 ERROR Job failed with status=ABORT
