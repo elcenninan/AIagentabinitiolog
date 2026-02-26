@@ -46,7 +46,23 @@ def parse_log(log_text: str) -> dict[str, Any]:
 
 
 def load_jobs(jobs_file: Path) -> list[JobRecord]:
-    raw = json.loads(jobs_file.read_text())
+    text = jobs_file.read_text(encoding="utf-8")
+    try:
+        raw = json.loads(text)
+    except json.JSONDecodeError as exc:
+        sanitized = re.sub(r"/\*.*?\*/", "", text, flags=re.DOTALL)
+        sanitized = re.sub(r"//.*", "", sanitized)
+        sanitized = re.sub(r",(\s*[}\]])", r"\1", sanitized)
+        try:
+            raw = json.loads(sanitized)
+        except json.JSONDecodeError as sanitized_exc:
+            raise ValueError(
+                f"Invalid jobs JSON in {jobs_file} at line {sanitized_exc.lineno}, "
+                f"column {sanitized_exc.colno}."
+            ) from exc
+
+    if not isinstance(raw, list):
+        raise ValueError(f"Jobs catalog must be a JSON array in {jobs_file}.")
     return [JobRecord(**item) for item in raw]
 
 
